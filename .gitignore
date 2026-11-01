@@ -1,0 +1,55 @@
+# ==============================================================================
+# .gitignore - DIADJI FAMILY
+# ==============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# PyInstaller & Dossiers de compilation
+build/
+build_installer/
+dist/
+*.manifest
+*.spec.bak
+*.exe
+
+# Archives de distribution volumineuses (> 50 Mo - hébergées sur GitHub Releases)
+*.zip
+*.tar.gz
+*.7z
+*.rar
+
+# Runtime Python portable volumineux (téléchargeable via vendor/TELECHARGER_PYTHON_PORTABLE.bat)
+vendor/python_embed/
+
+# Fichiers temporaires, caches & logs
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*~
+.cache/
+.pytest_cache/
+
+# Factures générées dynamiquement (conserver l'exemple et le .gitkeep)
+factures_pdf/*.pdf
+!factures_pdf/Facture_DIADJI_FAMILY_TK-20261031-0001.pdf
+!factures_pdf/.gitkeep
+
+# IDEs et éditeurs de texte
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Fichiers système
+Thumbs.db
+Desktop.ini
+.DS_Store
