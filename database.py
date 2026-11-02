@@ -8,6 +8,7 @@ import json
 import os
 import sys
 import datetime
+import math
 import unicodedata
 import shutil
 import openpyxl
@@ -593,9 +594,20 @@ def record_stock_movement(article_id, type_mouvement, quantite, prix_unitaire=0.
         conn.close()
         raise ValueError(f"Article {article_id} inexistant.")
 
+    try:
+        quantite = float(quantite)
+        prix_unitaire = float(prix_unitaire or art['prix_vente'])
+    except (TypeError, ValueError):
+        conn.close()
+        raise ValueError("La quantité et le prix doivent être numériques.")
+    if not math.isfinite(quantite) or not math.isfinite(prix_unitaire):
+        conn.close()
+        raise ValueError("La quantité et le prix doivent être des nombres valides.")
+    if prix_unitaire < 0:
+        conn.close()
+        raise ValueError("Le prix unitaire ne peut pas être négatif.")
+
     stock_avant = art['stock_actuel']
-    if not prix_unitaire:
-        prix_unitaire = art['prix_vente']
 
     # Déterminer le nouveau stock selon le mouvement
     if type_mouvement in ('ENTREE', 'RETOUR', 'COMMANDE_RECUE'):
@@ -611,6 +623,13 @@ def record_stock_movement(article_id, type_mouvement, quantite, prix_unitaire=0.
     else:
         qty_change = quantite
         stock_apres = stock_avant + qty_change
+
+    if stock_apres < 0:
+        conn.close()
+        raise ValueError(
+            f"Stock insuffisant pour l'article {article_id} : "
+            f"{stock_avant:g} disponible(s), {abs(qty_change):g} demandé(s)."
+        )
 
     montant_total = abs(qty_change) * prix_unitaire
 
@@ -716,11 +735,21 @@ def create_sale(items, montant_verse, remise=0.0, mode_paiement='Espèces', clie
             conn.close()
             raise ValueError(f"Article {art_id} introuvable.")
 
-        qty = float(item.get('quantite', 1))
+        try:
+            qty = float(item.get('quantite', 1))
+            unit_price = float(item.get('prix_unitaire', art['prix_vente']))
+        except (TypeError, ValueError):
+            conn.close()
+            raise ValueError(f"Quantité ou prix invalide pour l'article {art_id}.")
+        if not math.isfinite(qty) or not math.isfinite(unit_price):
+            conn.close()
+            raise ValueError(f"Quantité ou prix invalide pour l'article {art_id}.")
         if qty <= 0:
             continue
 
-        unit_price = float(item.get('prix_unitaire', art['prix_vente']))
+        if unit_price < 0:
+            conn.close()
+            raise ValueError(f"Le prix de vente ne peut pas être négatif pour l'article {art_id}.")
         line_total = qty * unit_price
         total_brut += line_total
 
@@ -738,9 +767,36 @@ def create_sale(items, montant_verse, remise=0.0, mode_paiement='Espèces', clie
         conn.close()
         raise ValueError("Aucun article valide dans la commande.")
 
-    remise = float(remise or 0.0)
+    stock_demand = {}
+    for item in processed_items:
+        stock_demand[item['article_id']] = stock_demand.get(item['article_id'], 0.0) + item['quantite']
+    for article_id, demand in stock_demand.items():
+        cur.execute("SELECT stock_actuel FROM articles WHERE id = ?", (article_id,))
+        stock = cur.fetchone()['stock_actuel']
+        if demand > stock:
+            conn.close()
+            raise ValueError(
+                f"Stock insuffisant pour l'article {article_id} : "
+                f"{stock:g} disponible(s), {demand:g} demandé(s)."
+            )
+
+    try:
+        remise = float(remise or 0.0)
+    except (TypeError, ValueError):
+        conn.close()
+        raise ValueError("La remise doit être numérique.")
+    if not math.isfinite(remise) or remise < 0:
+        conn.close()
+        raise ValueError("La remise doit être un nombre positif ou nul.")
     total_net = max(0.0, total_brut - remise)
-    montant_verse = float(total_net if montant_verse is None or str(montant_verse).strip() == '' else montant_verse)
+    try:
+        montant_verse = float(total_net if montant_verse is None or str(montant_verse).strip() == '' else montant_verse)
+    except (TypeError, ValueError):
+        conn.close()
+        raise ValueError("Le montant versé doit être numérique.")
+    if not math.isfinite(montant_verse) or montant_verse < total_net:
+        conn.close()
+        raise ValueError(f"Montant versé insuffisant : {total_net:g} FCFA minimum.")
     monnaie = max(0.0, montant_verse - total_net)
 
     # 1. Insertion dans la table ventes
@@ -756,6 +812,7 @@ def create_sale(items, montant_verse, remise=0.0, mode_paiement='Espèces', clie
     vente_id = cur.lastrowid
 
     # 2. Insertion des lignes de vente et mise à jour des stocks
+    running_stock = {}
     for p_item in processed_items:
         cur.execute("""
         INSERT INTO lignes_vente (
@@ -767,7 +824,9 @@ def create_sale(items, montant_verse, remise=0.0, mode_paiement='Espèces', clie
         ))
 
         # Déduire le stock
-        stock_apres = p_item['stock_avant'] - p_item['quantite']
+        stock_avant = running_stock.get(p_item['article_id'], p_item['stock_avant'])
+        stock_apres = stock_avant - p_item['quantite']
+        running_stock[p_item['article_id']] = stock_apres
         cur.execute("""
         UPDATE articles SET
             stock_actuel = ?,
@@ -782,7 +841,7 @@ def create_sale(items, montant_verse, remise=0.0, mode_paiement='Espèces', clie
             prix_unitaire, montant_total, reference_doc, commentaire
         ) VALUES (?, 'VENTE', ?, ?, ?, ?, ?, ?, ?)
         """, (
-            p_item['article_id'], -p_item['quantite'], p_item['stock_avant'],
+            p_item['article_id'], -p_item['quantite'], stock_avant,
             stock_apres, p_item['prix_unitaire'], p_item['total_ligne'],
             ticket_num, f"Vente au comptant - {client_nom}"
         ))
@@ -1755,4 +1814,3 @@ def receive_invoice_batch(fournisseur, numero_facture, date_facture=None, items=
         "nouveaux_articles": nouveaux_articles,
         "details": articles_traites
     }
-

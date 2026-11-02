@@ -46,6 +46,20 @@ def get_resource_path(filename):
 HTML_UI_PATH = get_resource_path("app_ui.html")
 
 
+def parse_query_int(query, name, default, minimum=None, maximum=None):
+    """Parse un entier de requête et rejette explicitement les valeurs invalides."""
+    raw_value = query.get(name, [default])[0]
+    try:
+        value = int(raw_value)
+    except (TypeError, ValueError):
+        raise ValueError(f"Le paramètre '{name}' doit être un entier.")
+    if minimum is not None and value < minimum:
+        raise ValueError(f"Le paramètre '{name}' doit être supérieur ou égal à {minimum}.")
+    if maximum is not None and value > maximum:
+        raise ValueError(f"Le paramètre '{name}' doit être inférieur ou égal à {maximum}.")
+    return value
+
+
 class MagasinRequestHandler(BaseHTTPRequestHandler):
     """Gestionnaire de requêtes HTTP et API REST."""
 
@@ -135,8 +149,12 @@ class MagasinRequestHandler(BaseHTTPRequestHandler):
             q = query.get("q", [None])[0]
             cat = query.get("cat", [None])[0]
             statut = query.get("statut", [None])[0]
-            limit = int(query.get("limit", [0])[0]) if "limit" in query else None
-            offset = int(query.get("offset", [0])[0]) if "offset" in query else None
+            try:
+                limit = parse_query_int(query, "limit", 0, 0, 500) if "limit" in query else None
+                offset = parse_query_int(query, "offset", 0, 0, None) if "offset" in query else None
+            except ValueError as exc:
+                self.send_error_json(str(exc), status=400)
+                return
             articles = database.get_articles(query=q, categorie=cat, statut=statut, limit=limit, offset=offset)
             self.send_json(articles)
             return
@@ -180,7 +198,11 @@ class MagasinRequestHandler(BaseHTTPRequestHandler):
 
         # 5. API Ventes (Historique)
         if path == "/api/ventes":
-            limit = int(query.get("limit", [50])[0])
+            try:
+                limit = parse_query_int(query, "limit", 50, 1, 500)
+            except ValueError as exc:
+                self.send_error_json(str(exc), status=400)
+                return
             ventes = database.get_ventes(limit=limit)
             self.send_json(ventes)
             return
@@ -230,7 +252,11 @@ class MagasinRequestHandler(BaseHTTPRequestHandler):
 
         # 7. API Mouvements de stock
         if path == "/api/mouvements":
-            limit = int(query.get("limit", [100])[0])
+            try:
+                limit = parse_query_int(query, "limit", 100, 1, 500)
+            except ValueError as exc:
+                self.send_error_json(str(exc), status=400)
+                return
             art_id = query.get("article_id", [None])[0]
             mouvs = database.get_mouvements(limit=limit, article_id=art_id)
             self.send_json(mouvs)
@@ -591,4 +617,3 @@ def create_server(host="127.0.0.1", start_port=8000, max_attempts=20):
         except OSError:
             continue
     raise RuntimeError(f"Impossible de lier un port HTTP libre entre {start_port} et {start_port + max_attempts}.")
-

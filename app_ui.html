@@ -35,6 +35,29 @@
         .pos-responsive-pane {
             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
         }
+        button, a, input, select, textarea {
+            transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+        button:focus-visible, a:focus-visible, input:focus-visible,
+        select:focus-visible, textarea:focus-visible {
+            outline: 3px solid rgba(14, 165, 233, 0.55);
+            outline-offset: 2px;
+        }
+        .dashboard-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
         
         /* Thermal Receipt Print Styles */
         @media print {
@@ -188,7 +211,7 @@
             <!-- 6 KPI Summary Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4">
                 <!-- Total Articles -->
-                <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="dashboard-card bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="flex items-center justify-between text-slate-500">
                         <span class="text-[11px] font-bold uppercase tracking-wider">Catalogue</span>
                         <i class="fa-solid fa-box text-blue-500 text-sm"></i>
@@ -200,7 +223,7 @@
                 </div>
 
                 <!-- Valeur Stock -->
-                <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="dashboard-card bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="flex items-center justify-between text-teal-600">
                         <span class="text-[11px] font-bold uppercase tracking-wider">Valeur Stock</span>
                         <i class="fa-solid fa-coins text-sm"></i>
@@ -212,7 +235,7 @@
                 </div>
 
                 <!-- En Rupture -->
-                <div class="bg-white rounded-xl p-4 border border-rose-200 bg-rose-50/30 shadow-sm flex flex-col justify-between">
+                <div class="dashboard-card bg-white rounded-xl p-4 border border-rose-200 bg-rose-50/30 shadow-sm flex flex-col justify-between">
                     <div class="flex items-center justify-between text-rose-600">
                         <span class="text-[11px] font-bold uppercase tracking-wider">Ruptures</span>
                         <i class="fa-solid fa-triangle-exclamation text-sm"></i>
@@ -224,7 +247,7 @@
                 </div>
 
                 <!-- Stock Faible -->
-                <div class="bg-white rounded-xl p-4 border border-amber-200 bg-amber-50/30 shadow-sm flex flex-col justify-between">
+                <div class="dashboard-card bg-white rounded-xl p-4 border border-amber-200 bg-amber-50/30 shadow-sm flex flex-col justify-between">
                     <div class="flex items-center justify-between text-amber-600">
                         <span class="text-[11px] font-bold uppercase tracking-wider">Stock Faible</span>
                         <i class="fa-solid fa-bell text-sm"></i>
