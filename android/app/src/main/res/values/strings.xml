@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DIADJI FAMILY</string>
+    <string name="settings_title">Configuration Serveur Caisse</string>
+    <string name="server_ip_hint">192.168.1.15:8000</string>
+    <string name="btn_save">Enregistrer &amp; Se Connecter</string>
+    <string name="btn_offline">Mode Hors-Ligne (Catalogue)</string>
+    <string name="btn_test">Tester Connexion</string>
+    <string name="connection_error">Serveur introuvable à cette adresse. Vérifiez que le PC est allumé et sur le même réseau Wi-Fi.</string>
+</resources>

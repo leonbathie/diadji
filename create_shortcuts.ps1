@@ -11,7 +11,10 @@ $BatLauncher = Join-Path $AppDir "LANCER_APPLICATION.bat"
 $ExcelPath = Join-Path $AppDir "DIADJI_FAMILY_TABLEAU_DE_BORD.xlsx"
 
 # Detection du binaire officiel pythonw.exe (signe par Microsoft / PSF et exempt de blocage SAC)
-$PywPath = "C:\Users\dell\AppData\Local\Python\pythoncore-3.15-64\pythonw.exe"
+$PywPath = "C:\Users\dell\AppData\Local\Python\bin\pythonw.exe"
+if (-not (Test-Path $PywPath)) {
+    $PywPath = "C:\Users\dell\AppData\Local\Python\pythoncore-3.15-64\pythonw.exe"
+}
 if (-not (Test-Path $PywPath)) {
     $found = Get-Command pythonw -ErrorAction SilentlyContinue
     if ($found) { $PywPath = $found.Source }

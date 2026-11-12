@@ -49,6 +49,15 @@ factures_pdf/*.pdf
 *.sln
 *.swp
 
+# Android & Gradle
+.gradle/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+*.aab
+
 # Fichiers système
 Thumbs.db
 Desktop.ini
