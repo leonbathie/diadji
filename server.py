@@ -138,6 +138,35 @@ class MagasinRequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(content)
                 return
 
+        # 1.2 Web App Manifest (PWA pour installation mobile fluide)
+        if path == "/manifest.json":
+            manifest = {
+                "name": "DIADJI FAMILY - Caisse & Stock",
+                "short_name": "DIADJI",
+                "description": "Logiciel de Caisse Express, Gestion des Stocks, Facturation PDF et Scanner IA Vision",
+                "start_url": "/",
+                "display": "standalone",
+                "background_color": "#0F172A",
+                "theme_color": "#0F172A",
+                "orientation": "portrait-primary",
+                "icons": [
+                    {
+                        "src": "/diadji_icon.png",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                    },
+                    {
+                        "src": "/diadji_icon.png",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                    }
+                ]
+            }
+            self.send_json(manifest)
+            return
+
         # 2. API Statistiques Dashboard
         if path == "/api/stats":
             stats = database.get_dashboard_stats()

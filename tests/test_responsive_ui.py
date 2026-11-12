@@ -58,6 +58,20 @@ class TestResponsiveUI(unittest.TestCase):
         self.assertIn('whitespace-nowrap', self.html)
         self.assertIn('min-w-[200px]', self.html)
 
+    def test_mobile_app_elements(self):
+        self.assertIn('id="mobile-bottom-nav"', self.html)
+        self.assertIn('id="tab-nav-mobile-caisse"', self.html)
+        self.assertIn('id="tab-nav-mobile-catalogue"', self.html)
+        self.assertIn('id="tab-nav-mobile-scan"', self.html)
+        self.assertIn('id="tab-nav-mobile-historique"', self.html)
+        self.assertIn('id="tab-nav-mobile-menu"', self.html)
+        self.assertIn('id="modal-mobile-menu"', self.html)
+        self.assertIn('function triggerHaptic', self.html)
+        self.assertIn('function openMobileMenu', self.html)
+        self.assertIn('function closeMobileMenu', self.html)
+        self.assertIn('apple-mobile-web-app-capable', self.html)
+        self.assertIn('/manifest.json', self.html)
+
     def test_dist_sync(self):
         dist_path = os.path.join('dist', 'DIADJI_FAMILY', 'app_ui.html')
         self.assertTrue(os.path.exists(dist_path))

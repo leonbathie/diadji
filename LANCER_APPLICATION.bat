@@ -17,9 +17,16 @@ REM Cette méthode est 100% compatible avec Windows 11 Smart App Control (aucun 
 set "PY_EXE="
 set "PYW_EXE="
 
-if exist "%LOCALAPPDATA%\Python\pythoncore-3.15-64\python.exe" (
-    set "PY_EXE=%LOCALAPPDATA%\Python\pythoncore-3.15-64\python.exe"
-    set "PYW_EXE=%LOCALAPPDATA%\Python\pythoncore-3.15-64\pythonw.exe"
+if exist "%LOCALAPPDATA%\Python\bin\python.exe" (
+    set "PY_EXE=%LOCALAPPDATA%\Python\bin\python.exe"
+    set "PYW_EXE=%LOCALAPPDATA%\Python\bin\pythonw.exe"
+)
+
+if not defined PY_EXE (
+    if exist "%LOCALAPPDATA%\Python\pythoncore-3.15-64\python.exe" (
+        set "PY_EXE=%LOCALAPPDATA%\Python\pythoncore-3.15-64\python.exe"
+        set "PYW_EXE=%LOCALAPPDATA%\Python\pythoncore-3.15-64\pythonw.exe"
+    )
 )
 
 if not defined PY_EXE (

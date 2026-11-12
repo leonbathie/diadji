@@ -2,8 +2,19 @@
 <html lang="fr" class="h-full bg-slate-50">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>DIADJI FAMILY - Logiciel de Caisse & Stock Embarqué</title>
+    <!-- Métadonnées & PWA Mobile App -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DIADJI FAMILY">
+    <meta name="application-name" content="DIADJI FAMILY">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/diadji_icon.png">
+    <link rel="icon" type="image/png" href="/diadji_icon.png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome 6 -->
@@ -12,9 +23,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        body {
+        html, body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             user-select: none;
+            overscroll-behavior-y: contain;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         .tab-btn.active {
             color: #2563EB;
@@ -30,6 +44,29 @@
         /* Utilitaires de défilement masqué & adaptation responsive */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Utilitaires ergonomiques Mobile & Tactile */
+        .safe-bottom {
+            padding-bottom: max(env(safe-area-inset-bottom, 0px), 10px);
+        }
+        .safe-top {
+            padding-top: max(env(safe-area-inset-top, 0px), 8px);
+        }
+        .active-press:active {
+            transform: scale(0.96);
+            transition: transform 0.08s ease;
+        }
+        .mobile-nav-bar {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        @keyframes bottomSheetSlideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .sheet-slide-up {
+            animation: bottomSheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
         
         /* Transition douce pour la vue responsive */
         .pos-responsive-pane {
@@ -142,33 +179,36 @@
 
                 <!-- Header Actions (Responsive Buttons) -->
                 <div class="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
-                    <button onclick="switchTab('caisse')" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow transition shrink-0" title="Accéder au point de vente express">
+                    <button onclick="switchTab('caisse')" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow transition shrink-0 active-press" title="Accéder au point de vente express">
                         <i class="fa-solid fa-cash-register"></i>
                         <span class="hidden sm:inline">Caisse</span><span class="hidden lg:inline"> Express [F2]</span>
                     </button>
-                    <button onclick="switchTab('scan')" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow transition shrink-0" title="Scanner Facture - Importer une photo de facture de livraison">
+                    <button onclick="switchTab('scan')" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow transition shrink-0 active-press" title="Scanner Facture - Importer une photo de facture de livraison">
                         <i class="fa-solid fa-camera"></i>
                         <span class="hidden sm:inline">Scanner</span><span class="hidden xl:inline"> Facture</span>
                     </button>
-                    <button onclick="openArticleModal()" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow transition shrink-0" title="Ajouter un nouvel article au catalogue">
+                    <button onclick="openArticleModal()" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow transition shrink-0 active-press" title="Ajouter un nouvel article au catalogue">
                         <i class="fa-solid fa-plus"></i>
                         <span class="hidden md:inline">Nouvel Article</span>
                     </button>
-                    <a href="/api/export/excel" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-400 text-xs font-semibold border border-slate-700 shadow-sm transition shrink-0" title="Télécharger le classeur Excel officiel DIADJI FAMILY">
+                    <a href="/api/export/excel" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-400 text-xs font-semibold border border-slate-700 shadow-sm transition shrink-0 active-press" title="Télécharger le classeur Excel officiel DIADJI FAMILY">
                         <i class="fa-solid fa-file-excel"></i>
                         <span class="hidden lg:inline">Export Excel</span>
                     </a>
-                    <button onclick="sauvegarderBase()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition shrink-0" title="Sauvegarder la base magasin.db">
+                    <button onclick="sauvegarderBase()" class="hidden sm:inline-flex p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition shrink-0 active-press" title="Sauvegarder la base magasin.db">
                         <i class="fa-solid fa-database"></i>
                     </button>
-                    <button onclick="quitterApplication()" class="p-2 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-xs border border-rose-800/40 transition shrink-0" title="Fermer le logiciel DIADJI FAMILY">
+                    <button onclick="openMobileMenu()" class="sm:hidden p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition shrink-0 active-press" title="Ouvrir le menu mobile">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <button onclick="quitterApplication()" class="hidden sm:inline-flex p-2 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-xs border border-rose-800/40 transition shrink-0 active-press" title="Fermer le logiciel DIADJI FAMILY">
                         <i class="fa-solid fa-power-off"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Tab Navigation Strip (Horizontal Scroll without Ugly Scrollbars) -->
-            <div class="flex space-x-1 border-t border-slate-800/80 overflow-x-auto text-xs font-medium text-slate-400 no-scrollbar whitespace-nowrap flex-nowrap py-1">
+            <div class="hidden sm:flex space-x-1 border-t border-slate-800/80 overflow-x-auto text-xs font-medium text-slate-400 no-scrollbar whitespace-nowrap flex-nowrap py-1">
                 <button onclick="switchTab('dashboard')" id="tab-nav-dashboard" class="tab-btn active px-3 sm:px-4 py-2 flex items-center gap-1.5 sm:gap-2 hover:text-white transition shrink-0">
                     <i class="fa-solid fa-chart-pie"></i>
                     <span>Tableau <span class="hidden sm:inline">de Bord</span></span>
@@ -202,7 +242,7 @@
     </header>
 
     <!-- Main Content Container (Tabs Area) -->
-    <main class="flex-1 overflow-y-auto bg-slate-50 p-2.5 sm:p-4 md:p-6" id="main-container">
+    <main class="flex-1 overflow-y-auto bg-slate-50 p-2.5 sm:p-4 md:p-6 pb-28 sm:pb-6" id="main-container">
 
         <!-- =============================================================== -->
         <!-- TAB 1: TABLEAU DE BORD (DASHBOARD)                              -->
@@ -514,7 +554,7 @@
             </div>
 
             <!-- Floating Mobile Cart Bar (Sticky bottom on < lg when viewing catalog) -->
-            <div id="pos-mobile-floating-cart-bar" class="lg:hidden fixed bottom-4 left-4 right-4 z-40 bg-slate-900 text-white rounded-2xl p-3 shadow-2xl border border-slate-700 flex items-center justify-between animate-in slide-in-from-bottom duration-200 hidden">
+            <div id="pos-mobile-floating-cart-bar" class="lg:hidden fixed bottom-20 sm:bottom-4 left-3 right-3 sm:left-4 sm:right-4 z-40 bg-slate-900/95 mobile-nav-bar text-white rounded-2xl p-3 shadow-2xl border border-slate-700/80 flex items-center justify-between animate-in slide-in-from-bottom duration-200 hidden active-press">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 text-white flex items-center justify-center font-bold text-sm shadow">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -1555,6 +1595,153 @@
         </div>
     </div>
 
+    <!-- =============================================================== -->
+    <!-- MOBILE BOTTOM NAVIGATION BAR (Application Mobile iOS/Android)   -->
+    <!-- =============================================================== -->
+    <nav id="mobile-bottom-nav" class="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 mobile-nav-bar border-t border-slate-800/90 px-2 py-1 select-none flex items-center justify-around safe-bottom">
+        <!-- 1. Caisse -->
+        <button type="button" onclick="switchTab('caisse')" id="tab-nav-mobile-caisse" class="relative flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white active-press transition">
+            <div class="relative">
+                <i class="fa-solid fa-cash-register text-lg"></i>
+                <span id="pos-mobile-nav-badge" class="absolute -top-1.5 -right-2.5 bg-emerald-500 text-white text-[9px] font-extrabold rounded-full px-1.5 py-0.2 shadow-sm min-w-4 text-center hidden">0</span>
+            </div>
+            <span class="text-[10px] font-semibold mt-0.5 tracking-tight">Caisse</span>
+            <span class="active-dot hidden w-1.5 h-1.5 rounded-full bg-emerald-400 mt-0.5"></span>
+        </button>
+
+        <!-- 2. Catalogue -->
+        <button type="button" onclick="switchTab('catalogue')" id="tab-nav-mobile-catalogue" class="relative flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white active-press transition">
+            <i class="fa-solid fa-boxes-stacked text-lg"></i>
+            <span class="text-[10px] font-semibold mt-0.5 tracking-tight">Catalogue</span>
+            <span class="active-dot hidden w-1.5 h-1.5 rounded-full bg-emerald-400 mt-0.5"></span>
+        </button>
+
+        <!-- 3. Bouton central caméra surélevé -->
+        <button type="button" onclick="switchTab('scan')" id="tab-nav-mobile-scan" class="relative -top-3.5 flex flex-col items-center justify-center group active-press">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-sky-500 via-emerald-400 to-teal-400 text-white flex items-center justify-center text-xl shadow-lg shadow-sky-500/30 border-4 border-slate-900 transition transform group-active:scale-95">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+            <span class="text-[10px] font-bold text-sky-300 mt-0.5 tracking-tight">Scanner</span>
+        </button>
+
+        <!-- 4. Ventes / Historique -->
+        <button type="button" onclick="switchTab('historique')" id="tab-nav-mobile-historique" class="relative flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white active-press transition">
+            <i class="fa-solid fa-receipt text-lg"></i>
+            <span class="text-[10px] font-semibold mt-0.5 tracking-tight">Ventes</span>
+            <span class="active-dot hidden w-1.5 h-1.5 rounded-full bg-emerald-400 mt-0.5"></span>
+        </button>
+
+        <!-- 5. Menu Plus / Tiroir Mobile -->
+        <button type="button" onclick="openMobileMenu()" id="tab-nav-mobile-menu" class="relative flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white active-press transition">
+            <i class="fa-solid fa-bars-staggered text-lg"></i>
+            <span class="text-[10px] font-semibold mt-0.5 tracking-tight">Menu</span>
+            <span class="active-dot hidden w-1.5 h-1.5 rounded-full bg-emerald-400 mt-0.5"></span>
+        </button>
+    </nav>
+
+    <!-- =============================================================== -->
+    <!-- MOBILE BOTTOM SHEET MENU (Tiroir Moderne Style iOS/Android)     -->
+    <!-- =============================================================== -->
+    <div id="modal-mobile-menu" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-end sm:items-center justify-center transition-opacity duration-200" onclick="if(event.target === this) closeMobileMenu()">
+        <div class="w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl border-t sm:border border-slate-200/80 max-h-[88vh] flex flex-col sheet-slide-up overflow-hidden safe-bottom">
+            <!-- Poignée mobile tactile -->
+            <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mt-3 mb-2 shrink-0 sm:hidden"></div>
+            
+            <!-- Header du tiroir -->
+            <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-400 flex items-center justify-center text-white font-bold text-sm shadow">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-sm text-slate-900 leading-tight">DIADJI FAMILY</h3>
+                        <p class="text-[11px] text-slate-500 font-medium">Application Mobile • v2.0</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeMobileMenu()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center text-sm transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Contenu scrollable du menu -->
+            <div class="p-4 overflow-y-auto space-y-4 text-xs">
+                <!-- 4 KPIs rapides -->
+                <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-200/70">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-xs">
+                        <span class="text-[10px] text-slate-500 uppercase font-bold">Articles</span>
+                        <div id="mobile-menu-kpi-articles" class="text-base font-extrabold text-slate-900">183</div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-xs">
+                        <span class="text-[10px] text-teal-600 uppercase font-bold">Valeur Stock</span>
+                        <div id="mobile-menu-kpi-stock" class="text-sm font-extrabold text-teal-700">0 F</div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-xs">
+                        <span class="text-[10px] text-rose-600 uppercase font-bold">Ruptures</span>
+                        <div id="mobile-menu-kpi-ruptures" class="text-base font-extrabold text-rose-600">0</div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-xs">
+                        <span class="text-[10px] text-emerald-600 uppercase font-bold">Ventes Jour</span>
+                        <div id="mobile-menu-kpi-ventes" class="text-base font-extrabold text-emerald-600">0 F</div>
+                    </div>
+                </div>
+
+                <!-- Liste des raccourcis -->
+                <div class="space-y-1 font-semibold text-slate-700">
+                    <button type="button" onclick="closeMobileMenu(); switchTab('dashboard');" class="w-full p-3 rounded-xl hover:bg-slate-100 flex items-center justify-between transition text-left active-press">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-chart-pie"></i></div>
+                            <span>Tableau de Bord & KPIs</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    </button>
+                    <button type="button" onclick="closeMobileMenu(); switchTab('commandes');" class="w-full p-3 rounded-xl hover:bg-slate-100 flex items-center justify-between transition text-left active-press">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-truck"></i></div>
+                            <span>Commandes & Alertes Réassort</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    </button>
+                    <a href="/api/export/excel" class="w-full p-3 rounded-xl hover:bg-slate-100 flex items-center justify-between transition text-left active-press">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-file-excel"></i></div>
+                            <span>Télécharger l'Inventaire Excel</span>
+                        </div>
+                        <i class="fa-solid fa-download text-slate-400 text-[10px]"></i>
+                    </a>
+                    <button type="button" onclick="closeMobileMenu(); switchTab('sync');" class="w-full p-3 rounded-xl hover:bg-slate-100 flex items-center justify-between transition text-left active-press">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center"><i class="fa-solid fa-arrows-rotate"></i></div>
+                            <span>Synchroniser avec Excel</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    </button>
+                    <button type="button" onclick="closeMobileMenu(); sauvegarderBase();" class="w-full p-3 rounded-xl hover:bg-slate-100 flex items-center justify-between transition text-left active-press">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center"><i class="fa-solid fa-database"></i></div>
+                            <span>Sauvegarder la Base (magasin.db)</span>
+                        </div>
+                        <i class="fa-solid fa-download text-slate-400 text-[10px]"></i>
+                    </button>
+                    <button type="button" onclick="closeMobileMenu(); openGeminiSettingsModal();" class="w-full p-3 rounded-xl hover:bg-slate-100 flex items-center justify-between transition text-left active-press">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                            <span>Configuration IA Gemini Vision</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    </button>
+                </div>
+
+                <!-- Bouton Quitter -->
+                <div class="pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closeMobileMenu(); quitterApplication();" class="w-full py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold flex items-center justify-center gap-2 transition active-press">
+                        <i class="fa-solid fa-power-off"></i>
+                        <span>Fermer le Logiciel DIADJI FAMILY</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification Overlay -->
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
@@ -1568,6 +1755,7 @@
         let CURRENT_POS_MOBILE_VIEW = 'catalog'; // 'catalog' ou 'cart' (Mode Responsive Mobile / Écran Réduit)
 
         function setPOSMobileView(view) {
+            triggerHaptic(10);
             CURRENT_POS_MOBILE_VIEW = view;
             updatePOSMobileViewUI();
         }
@@ -1590,6 +1778,17 @@
 
             const badgeCount = document.getElementById('pos-mobile-cart-badge');
             if (badgeCount) badgeCount.textContent = totalQty;
+
+            // Badge sur la barre de navigation mobile fixe
+            const navBadge = document.getElementById('pos-mobile-nav-badge');
+            if (navBadge) {
+                if (totalQty > 0) {
+                    navBadge.textContent = totalQty;
+                    navBadge.classList.remove('hidden');
+                } else {
+                    navBadge.classList.add('hidden');
+                }
+            }
 
             const floatingQty = document.getElementById('pos-mobile-floating-qty');
             if (floatingQty) floatingQty.textContent = `${totalQty} article${totalQty > 1 ? 's' : ''}`;
@@ -1637,6 +1836,43 @@
                     }
                 }
             }
+        }
+
+        // Helper Vibration Tactile Mobile (Haptic Feedback)
+        function triggerHaptic(duration = 10) {
+            try {
+                if (window.navigator && typeof window.navigator.vibrate === 'function') {
+                    window.navigator.vibrate(duration);
+                }
+            } catch (e) {}
+        }
+
+        // Contrôleur du Menu Mobile en Feuille Déroulante (Bottom Sheet Drawer)
+        function openMobileMenu() {
+            triggerHaptic(12);
+            const m = document.getElementById('modal-mobile-menu');
+            if (!m) return;
+            fetch('/api/stats')
+                .then(r => r.json())
+                .then(data => {
+                    const elArt = document.getElementById('mobile-menu-kpi-articles');
+                    const elStock = document.getElementById('mobile-menu-kpi-stock');
+                    const elRupt = document.getElementById('mobile-menu-kpi-ruptures');
+                    const elVentes = document.getElementById('mobile-menu-kpi-ventes');
+                    if (elArt) elArt.textContent = data.total_articles || '183';
+                    if (elStock) elStock.textContent = formatFCFA(data.valeur_stock_fcfa || 0);
+                    if (elRupt) elRupt.textContent = data.en_rupture || '0';
+                    if (elVentes) elVentes.textContent = formatFCFA(data.ventes_jour_total_fcfa || 0);
+                }).catch(() => {});
+            m.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            triggerHaptic(8);
+            const m = document.getElementById('modal-mobile-menu');
+            if (m) m.classList.add('hidden');
+            document.body.style.overflow = '';
         }
 
         // Écouteur de redimensionnement de fenêtre
@@ -2033,6 +2269,25 @@
                 }
             });
 
+            // Synchronisation de la barre de navigation mobile
+            const mobileTabs = ['caisse', 'catalogue', 'scan', 'historique'];
+            mobileTabs.forEach(t => {
+                const mBtn = document.getElementById(`tab-nav-mobile-${t}`);
+                if (mBtn) {
+                    const dot = mBtn.querySelector('.active-dot');
+                    if (t === tabId) {
+                        mBtn.classList.add('text-emerald-400');
+                        mBtn.classList.remove('text-slate-400');
+                        if (dot) dot.classList.remove('hidden');
+                    } else {
+                        mBtn.classList.remove('text-emerald-400');
+                        mBtn.classList.add('text-slate-400');
+                        if (dot) dot.classList.add('hidden');
+                    }
+                }
+            });
+            triggerHaptic(10);
+
             if (tabId === 'dashboard') loadDashboard();
             if (tabId === 'caisse') {
                 filterPOSArticles();
@@ -2240,6 +2495,7 @@
 
         function addToCart(article) {
             playBeep('add');
+            triggerHaptic(12);
             const existing = CART.find(item => item.article_id === article.id);
             if (existing) {
                 existing.quantite += 1;
@@ -2261,6 +2517,7 @@
         }
 
         function updateCartQty(articleId, delta) {
+            triggerHaptic(10);
             const item = CART.find(i => i.article_id === articleId);
             if (!item) return;
             item.quantite += delta;
@@ -2268,6 +2525,7 @@
                 CART = CART.filter(i => i.article_id !== articleId);
             }
             renderCart();
+            updatePOSMobileViewUI();
         }
 
         function setCartItemQty(articleId, val) {
@@ -2351,10 +2609,10 @@
                     </div>
                     <div class="flex items-center justify-between pt-1">
                         <!-- Qty Controls -->
-                        <div class="flex items-center border border-slate-300 rounded-lg bg-white overflow-hidden">
-                            <button onclick="updateCartQty('${item.article_id}', -1)" class="px-2 py-0.5 hover:bg-slate-100 text-slate-600 font-bold">-</button>
+                        <div class="flex items-center border border-slate-300 rounded-lg bg-white overflow-hidden shadow-xs">
+                            <button onclick="updateCartQty('${item.article_id}', -1)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-700 font-bold active-press transition">-</button>
                             <input type="number" min="0.01" step="any" value="${item.quantite}" onchange="setCartItemQty('${item.article_id}', this.value)" class="w-12 text-center text-xs font-bold border-none outline-none">
-                            <button onclick="updateCartQty('${item.article_id}', 1)" class="px-2 py-0.5 hover:bg-slate-100 text-slate-600 font-bold">+</button>
+                            <button onclick="updateCartQty('${item.article_id}', 1)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-700 font-bold active-press transition">+</button>
                         </div>
                         <!-- Price and Line Total -->
                         <div class="flex items-center gap-2">
@@ -2401,6 +2659,7 @@
         }
 
         function setQuickCash(val) {
+            triggerHaptic(10);
             const subtotal = CART.reduce((sum, i) => sum + (i.quantite * i.prix_unitaire), 0);
             const discount = Math.max(0, parseFloat(document.getElementById('cart-discount').value) || 0);
             const totalNet = Math.max(0, subtotal - discount);

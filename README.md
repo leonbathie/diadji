@@ -15,7 +15,7 @@
   <a href="#-base-de-données-embarquée-sqlite"><img src="https://img.shields.io/badge/Base_de_Donn%C3%A9es-SQLite%203%20Embarqu%C3%A9-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite 3" /></a>
   <a href="#-démarrage-rapide"><img src="https://img.shields.io/badge/Plateforme-Windows%2010%20%2F%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows 10/11" /></a>
   <a href="#-envoi-direct-sur-whatsapp"><img src="https://img.shields.io/badge/WhatsApp-Click--to--Chat-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="WhatsApp" /></a>
-  <a href="#-tests-automatisés"><img src="https://img.shields.io/badge/Tests-54%2F54%20Pass%C3%A9s%20(100%25)-10B981?style=for-the-badge&logo=checkmarx&logoColor=white" alt="54 Tests Passés" /></a>
+  <a href="#-tests-automatisés"><img src="https://img.shields.io/badge/Tests-55%2F55%20Pass%C3%A9s%20(100%25)-10B981?style=for-the-badge&logo=checkmarx&logoColor=white" alt="55 Tests Passés" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/Licence-MIT-F59E0B?style=for-the-badge" alt="Licence MIT" /></a>
 </p>
 
@@ -74,7 +74,13 @@ Sous Windows, vous disposez de 3 options pour lancer l'application immédiatemen
 * **Recherche Intelligente Instantanée** : Filtre en temps réel insensible à la casse et aux accents (*ex : tapez `cable`, `raccord` ou `interrupteur`*).
 * **Modes de Règlement Variés** : Prise en charge des **Espèces**, **Wave**, **Orange Money**, Chèques et Virements.
 * **Calcul Automatique** : Gestion des remises commerciales, calcul instantané de la monnaie à rendre et boutons de billets rapides (*Exact, 1 000, 2 000, 5 000, 10 000, 20 000 FCFA*).
-* **Mode Mobile / Tablette** : Barre de panier flottante avec tiroir coulissant et boutons tactiles larges.
+* **Expérience Mobile Native & PWA (iOS / Android)** :
+  * Barre de navigation mobile inférieure (*Bottom Navigation Bar*) avec badge panier temps réel.
+  * Bouton central d'action surélevé (*FAB*) pour le scanner photo et caméra.
+  * Tiroir tactile déroulant (*Bottom Sheet Drawer*) pour le menu complet, les actions et les KPIs.
+  * Barres et boutons à haute réactivité tactile avec retour haptique vibrant (`triggerHaptic`).
+  * Mode PWA autonome sans barre d'adresse (`manifest.json` intégré, installable sur écran d'accueil).
+  * Barre de panier flottante ergonomique pour basculer entre catalogue et encaissement en 1 clic.
 
 ---
 
@@ -238,7 +244,7 @@ c:\Users\dell\Desktop\diadji\
 
 ## 🧪 Tests Automatisés & Validation Continue
 
-Le projet intègre une suite rigoureuse de **54 tests automatisés** couvrant l'intégralité du cycle de vie de l'application :
+Le projet intègre une suite rigoureuse de **55 tests automatisés** couvrant l'intégralité du cycle de vie de l'application :
 
 ```bash
 # Pour exécuter la suite de tests avec rapport détaillé :
@@ -249,7 +255,7 @@ LANCER_TESTS.bat
 ```
 
 ### Résumé des Résultats :
-* **54 tests exécutés avec succès (0 échec, 0 erreur)**.
+* **55 tests exécutés avec succès (0 échec, 0 erreur)**.
 * Temps d'exécution : ~14 secondes.
 * Couverture : Base relationnelle, contraintes de clés étrangères, mode WAL, génération des numéros de ticket, gestion de la monnaie, flux de vente, génération PDF vectorielle, OCR, et tests d'intégration DOM.
 
