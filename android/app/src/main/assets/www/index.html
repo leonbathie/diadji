@@ -16,11 +16,11 @@
     <link rel="icon" type="image/png" href="/diadji_icon.png">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="vendor/tailwind.js"></script>
     <!-- FontAwesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome.css">
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="vendor/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         html, body {
@@ -1747,6 +1747,3119 @@
 
     <!-- Application Logic in Vanilla JS -->
     <script>
+
+        // =====================================================================
+        // MOTEUR DE DONNÉES LOCAL AUTONOME - DIADJI FAMILY (OFFLINE-FIRST)
+        // Permet un fonctionnement 100% autonome sans aucun serveur requis.
+        // =====================================================================
+        const DIADJI_INITIAL_ARTICLES = [
+  {
+    "id": "ART-001",
+    "code_barre": "ART-001",
+    "nom": "Interrupteur simple",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 1700.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur simple"
+  },
+  {
+    "id": "ART-002",
+    "code_barre": "ART-002",
+    "nom": "Interrupteur va-et-vient",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 1700.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur va-et-vient"
+  },
+  {
+    "id": "ART-003",
+    "code_barre": "ART-003",
+    "nom": "Interrupteur double allumage",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur double allumage"
+  },
+  {
+    "id": "ART-004",
+    "code_barre": "ART-004",
+    "nom": "Interrupteur étanche IP55",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur étanche IP55"
+  },
+  {
+    "id": "ART-005",
+    "code_barre": "ART-005",
+    "nom": "Interrupteur double allumage étanche IP55",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur double allumage étanche IP55"
+  },
+  {
+    "id": "ART-006",
+    "code_barre": "ART-006",
+    "nom": "Prise de courant 2P+T",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 1700.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise de courant 2P+T"
+  },
+  {
+    "id": "ART-007",
+    "code_barre": "ART-007",
+    "nom": "Prise de courant 2P+T étanche IP55",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise de courant 2P+T étanche IP55"
+  },
+  {
+    "id": "ART-008",
+    "code_barre": "ART-008",
+    "nom": "Bouton poussoir simple",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 1700.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Bouton poussoir simple"
+  },
+  {
+    "id": "ART-009",
+    "code_barre": "ART-009",
+    "nom": "Bouton poussoir étanche IP55",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Bouton poussoir étanche IP55"
+  },
+  {
+    "id": "ART-010",
+    "code_barre": "ART-010",
+    "nom": "Prise télévision coaxiale (TV)",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise télévision coaxiale (TV)"
+  },
+  {
+    "id": "ART-011",
+    "code_barre": "ART-011",
+    "nom": "Prise Internet RJ45 Cat 6",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 2500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise Internet RJ45 Cat 6"
+  },
+  {
+    "id": "ART-012",
+    "code_barre": "ART-012",
+    "nom": "Dismatic parafoudre modulaire",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 6000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Dismatic parafoudre modulaire"
+  },
+  {
+    "id": "ART-013",
+    "code_barre": "ART-013",
+    "nom": "Disjoncteur de branchement 2P 5A/15A",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 10000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Disjoncteur de branchement 2P 5A/15A"
+  },
+  {
+    "id": "ART-014",
+    "code_barre": "ART-014",
+    "nom": "Disjoncteur de branchement 2P 10A/30A",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 12000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Disjoncteur de branchement 2P 10A/30A"
+  },
+  {
+    "id": "ART-015",
+    "code_barre": "ART-015",
+    "nom": "Interrupteur différentiel 2P 25A 30mA",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 10000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur différentiel 2P 25A 30mA"
+  },
+  {
+    "id": "ART-016",
+    "code_barre": "ART-016",
+    "nom": "Interrupteur différentiel 2P 40A 30mA",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 10000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur différentiel 2P 40A 30mA"
+  },
+  {
+    "id": "ART-017",
+    "code_barre": "ART-017",
+    "nom": "Disjoncteur modulaire 1P+N 10A",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Disjoncteur modulaire 1P+N 10A"
+  },
+  {
+    "id": "ART-018",
+    "code_barre": "ART-018",
+    "nom": "Disjoncteur modulaire 1P+N 16A",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Disjoncteur modulaire 1P+N 16A"
+  },
+  {
+    "id": "ART-019",
+    "code_barre": "ART-019",
+    "nom": "Disjoncteur modulaire 1P+N 20A",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 2000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Disjoncteur modulaire 1P+N 20A"
+  },
+  {
+    "id": "ART-020",
+    "code_barre": "ART-020",
+    "nom": "Télérupteur silencieux modulaire",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 10000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Télérupteur silencieux modulaire"
+  },
+  {
+    "id": "ART-021",
+    "code_barre": "ART-021",
+    "nom": "Minuterie modulaire pour cage d'escalier",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 10000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Minuterie modulaire pour cage d'escalier"
+  },
+  {
+    "id": "ART-022",
+    "code_barre": "ART-022",
+    "nom": "Interrupteur horaire programmable 24H",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 15000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur horaire programmable 24H"
+  },
+  {
+    "id": "ART-023",
+    "code_barre": "ART-023",
+    "nom": "Coffret modulaire en saillie 1 rangée",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 4000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coffret modulaire en saillie 1 rangée"
+  },
+  {
+    "id": "ART-024",
+    "code_barre": "ART-024",
+    "nom": "Coffret modulaire en saillie 2 rangées",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 5000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coffret modulaire en saillie 2 rangées"
+  },
+  {
+    "id": "ART-025",
+    "code_barre": "ART-025",
+    "nom": "Coffret modulaire en saillie 3 rangées",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 10000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coffret modulaire en saillie 3 rangées"
+  },
+  {
+    "id": "ART-026",
+    "code_barre": "ART-026",
+    "nom": "Niche de compteur électrique Senelec standard",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 9000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Niche de compteur électrique Senelec standard"
+  },
+  {
+    "id": "ART-027",
+    "code_barre": "ART-027",
+    "nom": "Rouleau fil cuivre TH 1,5 mm² (100m)",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 21500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rouleau fil cuivre TH 1,5 mm² (100m)"
+  },
+  {
+    "id": "ART-028",
+    "code_barre": "ART-028",
+    "nom": "Rouleau fil cuivre TH 2,5 mm² (100m)",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 35000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rouleau fil cuivre TH 2,5 mm² (100m)"
+  },
+  {
+    "id": "ART-029",
+    "code_barre": "ART-029",
+    "nom": "Fil cuivre rigide TH 6 mm²",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 750.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Fil cuivre rigide TH 6 mm²"
+  },
+  {
+    "id": "ART-030",
+    "code_barre": "ART-030",
+    "nom": "Câble cuivre nu 25 mm² pour mise à terre",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 3000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble cuivre nu 25 mm² pour mise à terre"
+  },
+  {
+    "id": "ART-031",
+    "code_barre": "ART-031",
+    "nom": "Câble cuivre nu 29 mm² pour mise à terre",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble cuivre nu 29 mm² pour mise à terre"
+  },
+  {
+    "id": "ART-032",
+    "code_barre": "ART-032",
+    "nom": "Câble méplat souple 2 x 0,75 mm²",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble méplat souple 2 x 0,75 mm²"
+  },
+  {
+    "id": "ART-033",
+    "code_barre": "ART-033",
+    "nom": "Câble méplat U1000 R2V 2 x 1,5 mm²",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble méplat U1000 R2V 2 x 1,5 mm²"
+  },
+  {
+    "id": "ART-034",
+    "code_barre": "ART-034",
+    "nom": "Câble U1000 R2V 2 x 2,5 mm²",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble U1000 R2V 2 x 2,5 mm²"
+  },
+  {
+    "id": "ART-035",
+    "code_barre": "ART-035",
+    "nom": "Câble U1000 R2V 3 x 1,5 mm² avec terre",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble U1000 R2V 3 x 1,5 mm² avec terre"
+  },
+  {
+    "id": "ART-036",
+    "code_barre": "ART-036",
+    "nom": "Câble U1000 R2V 3 x 2,5 mm² avec terre",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Câble U1000 R2V 3 x 2,5 mm² avec terre"
+  },
+  {
+    "id": "ART-037",
+    "code_barre": "ART-037",
+    "nom": "Rouleau tube isolant orange ICTA ∅9",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rouleau tube isolant orange ICTA ∅9"
+  },
+  {
+    "id": "ART-038",
+    "code_barre": "ART-038",
+    "nom": "Rouleau tube isolant orange ICTA ∅11",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 15500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rouleau tube isolant orange ICTA ∅11"
+  },
+  {
+    "id": "ART-039",
+    "code_barre": "ART-039",
+    "nom": "Rouleau gaine annelée ICTA ∅11",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 15500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rouleau gaine annelée ICTA ∅11"
+  },
+  {
+    "id": "ART-040",
+    "code_barre": "ART-040",
+    "nom": "Rouleau gaine annelée ICTA ∅13",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rouleau gaine annelée ICTA ∅13"
+  },
+  {
+    "id": "ART-041",
+    "code_barre": "ART-041",
+    "nom": "Piquet de terre cuivré 1,5m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 3500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Piquet de terre cuivré 1,5m"
+  },
+  {
+    "id": "ART-042",
+    "code_barre": "ART-042",
+    "nom": "Barrette de terre / coupure basse",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 4000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Barrette de terre / coupure basse"
+  },
+  {
+    "id": "ART-043",
+    "code_barre": "ART-043",
+    "nom": "Boîtier d'encastrement carré à vis",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 300.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Boîtier d'encastrement carré à vis"
+  },
+  {
+    "id": "ART-044",
+    "code_barre": "ART-044",
+    "nom": "Boîte de dérivation étanche Plexo 100 x 100 mm",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Boîte de dérivation étanche Plexo 100 x 100 mm"
+  },
+  {
+    "id": "ART-045",
+    "code_barre": "ART-045",
+    "nom": "Boîte de dérivation étanche Plexo 150 x 150 mm",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Boîte de dérivation étanche Plexo 150 x 150 mm"
+  },
+  {
+    "id": "ART-046",
+    "code_barre": "ART-046",
+    "nom": "Boîte de dérivation étanche Plexo 200 x 200 mm",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Boîte de dérivation étanche Plexo 200 x 200 mm"
+  },
+  {
+    "id": "ART-047",
+    "code_barre": "ART-047",
+    "nom": "Boîte de dérivation étanche Plexo 250 x 250 mm",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Boîte de dérivation étanche Plexo 250 x 250 mm"
+  },
+  {
+    "id": "ART-048",
+    "code_barre": "ART-048",
+    "nom": "Boîte de dérivation étanche Plexo 300 x 300 mm",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Boîte de dérivation étanche Plexo 300 x 300 mm"
+  },
+  {
+    "id": "ART-049",
+    "code_barre": "ART-049",
+    "nom": "Grille de fausse coupure / séparation 4 x 16 mm²",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Grille de fausse coupure / séparation 4 x 16 mm²"
+  },
+  {
+    "id": "ART-050",
+    "code_barre": "ART-050",
+    "nom": "Grille de fausse coupure / séparation 4 x 25 mm²",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Grille de fausse coupure / séparation 4 x 25 mm²"
+  },
+  {
+    "id": "ART-051",
+    "code_barre": "ART-051",
+    "nom": "Grille de fausse coupure / séparation 4 x 35 mm²",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Grille de fausse coupure / séparation 4 x 35 mm²"
+  },
+  {
+    "id": "ART-052",
+    "code_barre": "ART-052",
+    "nom": "Grille de fausse coupure / séparation 4 x 50 mm²",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Grille de fausse coupure / séparation 4 x 50 mm²"
+  },
+  {
+    "id": "ART-053",
+    "code_barre": "ART-053",
+    "nom": "Grille de fausse coupure / séparation 4 x 70 mm²",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Grille de fausse coupure / séparation 4 x 70 mm²"
+  },
+  {
+    "id": "ART-054",
+    "code_barre": "ART-054",
+    "nom": "Hublot LED simple plafonnier",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot LED simple plafonnier"
+  },
+  {
+    "id": "ART-055",
+    "code_barre": "ART-055",
+    "nom": "Hublot LED 3 couleurs (Blanc chaud/neutre/froid)",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot LED 3 couleurs (Blanc chaud/neutre/froid)"
+  },
+  {
+    "id": "ART-056",
+    "code_barre": "ART-056",
+    "nom": "Hublot simple en verre opalin",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 3000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot simple en verre opalin"
+  },
+  {
+    "id": "ART-057",
+    "code_barre": "ART-057",
+    "nom": "Hublot LED simple taille moyenne",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 5000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot LED simple taille moyenne"
+  },
+  {
+    "id": "ART-058",
+    "code_barre": "ART-058",
+    "nom": "Hublot LED 3 couleurs taille moyenne",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 12000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot LED 3 couleurs taille moyenne"
+  },
+  {
+    "id": "ART-059",
+    "code_barre": "ART-059",
+    "nom": "Hublot LED simple grande taille",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 15000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot LED simple grande taille"
+  },
+  {
+    "id": "ART-060",
+    "code_barre": "ART-060",
+    "nom": "Hublot LED 3 couleurs grande taille",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 25000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Hublot LED 3 couleurs grande taille"
+  },
+  {
+    "id": "ART-061",
+    "code_barre": "ART-061",
+    "nom": "Luminaire LED décoratif taille moyenne",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 15000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Luminaire LED décoratif taille moyenne"
+  },
+  {
+    "id": "ART-062",
+    "code_barre": "ART-062",
+    "nom": "Luminaire LED décoratif grande taille",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 25000.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Luminaire LED décoratif grande taille"
+  },
+  {
+    "id": "ART-063",
+    "code_barre": "ART-063",
+    "nom": "Lustre LED contemporain suspendu",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Lustre LED contemporain suspendu"
+  },
+  {
+    "id": "ART-064",
+    "code_barre": "ART-064",
+    "nom": "Lustre plafonnier LED ventilateur + Bluetooth",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Lustre plafonnier LED ventilateur + Bluetooth"
+  },
+  {
+    "id": "ART-065",
+    "code_barre": "ART-065",
+    "nom": "Applique LED murale intérieure/extérieure",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Applique LED murale intérieure/extérieure"
+  },
+  {
+    "id": "ART-066",
+    "code_barre": "ART-066",
+    "nom": "Lampadaire sur pied design moderne",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Lampadaire sur pied design moderne"
+  },
+  {
+    "id": "ART-067",
+    "code_barre": "ART-067",
+    "nom": "Spot encastré LED simple blanc",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 1500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Spot encastré LED simple blanc"
+  },
+  {
+    "id": "ART-068",
+    "code_barre": "ART-068",
+    "nom": "Spot encastré LED 3 couleurs commutables",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 2500.0,
+    "source_prix": "Prix PDF",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Spot encastré LED 3 couleurs commutables"
+  },
+  {
+    "id": "ART-069",
+    "code_barre": "ART-069",
+    "nom": "Spot LED simple rond ∅20 cm",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Spot LED simple rond ∅20 cm"
+  },
+  {
+    "id": "ART-070",
+    "code_barre": "ART-070",
+    "nom": "Spot LED carré encastré ∅20 cm",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Spot LED carré encastré ∅20 cm"
+  },
+  {
+    "id": "ART-071",
+    "code_barre": "ART-071",
+    "nom": "Ruban lumineux LED monochrome blanc (rouleau)",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban lumineux LED monochrome blanc (rouleau)"
+  },
+  {
+    "id": "ART-072",
+    "code_barre": "ART-072",
+    "nom": "Ruban lumineux LED 3 couleurs (au mètre)",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Mètre",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban lumineux LED 3 couleurs (au mètre)"
+  },
+  {
+    "id": "ART-073",
+    "code_barre": "ART-073",
+    "nom": "Ruban LED RGB multi-couleurs avec télécommande 5m",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Kit",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban LED RGB multi-couleurs avec télécommande 5m"
+  },
+  {
+    "id": "ART-074",
+    "code_barre": "ART-074",
+    "nom": "Attache murale pour câble n°8",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Attache murale pour câble n°8"
+  },
+  {
+    "id": "ART-075",
+    "code_barre": "ART-075",
+    "nom": "Attache murale pour câble n°10",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Attache murale pour câble n°10"
+  },
+  {
+    "id": "ART-076",
+    "code_barre": "ART-076",
+    "nom": "Attache murale pour câble n°12",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Attache murale pour câble n°12"
+  },
+  {
+    "id": "ART-077",
+    "code_barre": "ART-077",
+    "nom": "Attache murale pour câble n°14",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Attache murale pour câble n°14"
+  },
+  {
+    "id": "ART-078",
+    "code_barre": "ART-078",
+    "nom": "Collier de serrage plastique petit modèle",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Sachet/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de serrage plastique petit modèle"
+  },
+  {
+    "id": "ART-079",
+    "code_barre": "ART-079",
+    "nom": "Collier de serrage plastique taille moyenne",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Sachet/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de serrage plastique taille moyenne"
+  },
+  {
+    "id": "ART-080",
+    "code_barre": "ART-080",
+    "nom": "Collier de serrage plastique grande taille",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Sachet/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de serrage plastique grande taille"
+  },
+  {
+    "id": "ART-081",
+    "code_barre": "ART-081",
+    "nom": "Collier de fixation Atlas n°18 pour tube",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de fixation Atlas n°18 pour tube"
+  },
+  {
+    "id": "ART-082",
+    "code_barre": "ART-082",
+    "nom": "Collier de fixation Atlas n°26 pour tube",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de fixation Atlas n°26 pour tube"
+  },
+  {
+    "id": "ART-083",
+    "code_barre": "ART-083",
+    "nom": "Collier de fixation Atlas n°32 pour tube",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de fixation Atlas n°32 pour tube"
+  },
+  {
+    "id": "ART-084",
+    "code_barre": "ART-084",
+    "nom": "Collier de fixation Atlas n°40 pour tube",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de fixation Atlas n°40 pour tube"
+  },
+  {
+    "id": "ART-085",
+    "code_barre": "ART-085",
+    "nom": "Collier de fixation Atlas n°60 pour tube",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Collier de fixation Atlas n°60 pour tube"
+  },
+  {
+    "id": "ART-086",
+    "code_barre": "ART-086",
+    "nom": "Tube PVC pression / évacuation ∅25 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC pression / évacuation ∅25 (4m)"
+  },
+  {
+    "id": "ART-087",
+    "code_barre": "ART-087",
+    "nom": "Tube PVC évacuation ∅32 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC évacuation ∅32 (4m)"
+  },
+  {
+    "id": "ART-088",
+    "code_barre": "ART-088",
+    "nom": "Tube PVC évacuation ∅40 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC évacuation ∅40 (4m)"
+  },
+  {
+    "id": "ART-089",
+    "code_barre": "ART-089",
+    "nom": "Tube PVC évacuation ∅50 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC évacuation ∅50 (4m)"
+  },
+  {
+    "id": "ART-090",
+    "code_barre": "ART-090",
+    "nom": "Tube PVC évacuation ∅60 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC évacuation ∅60 (4m)"
+  },
+  {
+    "id": "ART-091",
+    "code_barre": "ART-091",
+    "nom": "Tube PVC évacuation ∅70 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC évacuation ∅70 (4m)"
+  },
+  {
+    "id": "ART-092",
+    "code_barre": "ART-092",
+    "nom": "Tube PVC assainissement / chute ∅110 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC assainissement / chute ∅110 (4m)"
+  },
+  {
+    "id": "ART-093",
+    "code_barre": "ART-093",
+    "nom": "Tube PVC assainissement / chute ∅125 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC assainissement / chute ∅125 (4m)"
+  },
+  {
+    "id": "ART-094",
+    "code_barre": "ART-094",
+    "nom": "Tube PVC gros débit ∅150 (4m)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Barre 4m",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Tube PVC gros débit ∅150 (4m)"
+  },
+  {
+    "id": "ART-095",
+    "code_barre": "ART-095",
+    "nom": "Coude PVC 87° / 45° ∅25",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅25"
+  },
+  {
+    "id": "ART-096",
+    "code_barre": "ART-096",
+    "nom": "Coude PVC 87° / 45° ∅32",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅32"
+  },
+  {
+    "id": "ART-097",
+    "code_barre": "ART-097",
+    "nom": "Coude PVC 87° / 45° ∅40",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅40"
+  },
+  {
+    "id": "ART-098",
+    "code_barre": "ART-098",
+    "nom": "Coude PVC 87° / 45° ∅50",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅50"
+  },
+  {
+    "id": "ART-099",
+    "code_barre": "ART-099",
+    "nom": "Coude PVC 87° / 45° ∅60",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅60"
+  },
+  {
+    "id": "ART-100",
+    "code_barre": "ART-100",
+    "nom": "Coude PVC 87° / 45° ∅70",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅70"
+  },
+  {
+    "id": "ART-101",
+    "code_barre": "ART-101",
+    "nom": "Coude PVC 87° / 45° ∅110",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅110"
+  },
+  {
+    "id": "ART-102",
+    "code_barre": "ART-102",
+    "nom": "Coude PVC 87° / 45° ∅125",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅125"
+  },
+  {
+    "id": "ART-103",
+    "code_barre": "ART-103",
+    "nom": "Coude PVC 87° / 45° ∅150",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Coude PVC 87° / 45° ∅150"
+  },
+  {
+    "id": "ART-104",
+    "code_barre": "ART-104",
+    "nom": "Culotte PVC Té simple ∅25",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅25"
+  },
+  {
+    "id": "ART-105",
+    "code_barre": "ART-105",
+    "nom": "Culotte PVC Té simple ∅32",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅32"
+  },
+  {
+    "id": "ART-106",
+    "code_barre": "ART-106",
+    "nom": "Culotte PVC Té simple ∅40",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅40"
+  },
+  {
+    "id": "ART-107",
+    "code_barre": "ART-107",
+    "nom": "Culotte PVC Té simple ∅50",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅50"
+  },
+  {
+    "id": "ART-108",
+    "code_barre": "ART-108",
+    "nom": "Culotte PVC Té simple ∅60",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅60"
+  },
+  {
+    "id": "ART-109",
+    "code_barre": "ART-109",
+    "nom": "Culotte PVC Té simple ∅70",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅70"
+  },
+  {
+    "id": "ART-110",
+    "code_barre": "ART-110",
+    "nom": "Culotte PVC Té simple ∅110",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅110"
+  },
+  {
+    "id": "ART-111",
+    "code_barre": "ART-111",
+    "nom": "Culotte PVC Té simple ∅125",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅125"
+  },
+  {
+    "id": "ART-112",
+    "code_barre": "ART-112",
+    "nom": "Culotte PVC Té simple ∅150",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Culotte PVC Té simple ∅150"
+  },
+  {
+    "id": "ART-113",
+    "code_barre": "ART-113",
+    "nom": "Interrupteur simple Ingelec",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur simple Ingelec"
+  },
+  {
+    "id": "ART-114",
+    "code_barre": "ART-114",
+    "nom": "Interrupteur va-et-vient Ingelec",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur va-et-vient Ingelec"
+  },
+  {
+    "id": "ART-115",
+    "code_barre": "ART-115",
+    "nom": "Interrupteur double allumage Ingelec",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur double allumage Ingelec"
+  },
+  {
+    "id": "ART-116",
+    "code_barre": "ART-116",
+    "nom": "Bouton poussoir Ingelec",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Bouton poussoir Ingelec"
+  },
+  {
+    "id": "ART-117",
+    "code_barre": "ART-117",
+    "nom": "Prise courant 2P+T Ingelec",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise courant 2P+T Ingelec"
+  },
+  {
+    "id": "ART-118",
+    "code_barre": "ART-118",
+    "nom": "Dismatic parafoudre Ingelec",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Dismatic parafoudre Ingelec"
+  },
+  {
+    "id": "ART-119",
+    "code_barre": "ART-119",
+    "nom": "Interrupteur simple Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur simple Legrand"
+  },
+  {
+    "id": "ART-120",
+    "code_barre": "ART-120",
+    "nom": "Interrupteur va-et-vient Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur va-et-vient Legrand"
+  },
+  {
+    "id": "ART-121",
+    "code_barre": "ART-121",
+    "nom": "Interrupteur double allumage Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Interrupteur double allumage Legrand"
+  },
+  {
+    "id": "ART-122",
+    "code_barre": "ART-122",
+    "nom": "Bouton poussoir Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Bouton poussoir Legrand"
+  },
+  {
+    "id": "ART-123",
+    "code_barre": "ART-123",
+    "nom": "Prise de courant 2P+T Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise de courant 2P+T Legrand"
+  },
+  {
+    "id": "ART-124",
+    "code_barre": "ART-124",
+    "nom": "Prise télévision (TV) Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise télévision (TV) Legrand"
+  },
+  {
+    "id": "ART-125",
+    "code_barre": "ART-125",
+    "nom": "Prise Internet RJ45 Legrand",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Prise Internet RJ45 Legrand"
+  },
+  {
+    "id": "ART-126",
+    "code_barre": "ART-126",
+    "nom": "Dismatic parafoudre Legrand",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Dismatic parafoudre Legrand"
+  },
+  {
+    "id": "ART-127",
+    "code_barre": "ART-127",
+    "nom": "Vis à bois/métal 4 x 25 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 4 x 25 mm"
+  },
+  {
+    "id": "ART-128",
+    "code_barre": "ART-128",
+    "nom": "Vis à bois/métal 4 x 30 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 4 x 30 mm"
+  },
+  {
+    "id": "ART-129",
+    "code_barre": "ART-129",
+    "nom": "Vis à bois/métal 4 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 4 x 40 mm"
+  },
+  {
+    "id": "ART-130",
+    "code_barre": "ART-130",
+    "nom": "Vis à bois/métal 4 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 4 x 50 mm"
+  },
+  {
+    "id": "ART-131",
+    "code_barre": "ART-131",
+    "nom": "Vis à bois/métal 4 x 60 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 4 x 60 mm"
+  },
+  {
+    "id": "ART-132",
+    "code_barre": "ART-132",
+    "nom": "Vis à bois/métal 5 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 5 x 40 mm"
+  },
+  {
+    "id": "ART-133",
+    "code_barre": "ART-133",
+    "nom": "Vis à bois/métal 5 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis à bois/métal 5 x 50 mm"
+  },
+  {
+    "id": "ART-134",
+    "code_barre": "ART-134",
+    "nom": "Vis + Écrou métrique 4 x 25 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 4 x 25 mm"
+  },
+  {
+    "id": "ART-135",
+    "code_barre": "ART-135",
+    "nom": "Vis + Écrou métrique 4 x 30 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 4 x 30 mm"
+  },
+  {
+    "id": "ART-136",
+    "code_barre": "ART-136",
+    "nom": "Vis + Écrou métrique 4 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 4 x 40 mm"
+  },
+  {
+    "id": "ART-137",
+    "code_barre": "ART-137",
+    "nom": "Vis + Écrou métrique 4 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 4 x 50 mm"
+  },
+  {
+    "id": "ART-138",
+    "code_barre": "ART-138",
+    "nom": "Vis + Écrou métrique 5 x 25 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 5 x 25 mm"
+  },
+  {
+    "id": "ART-139",
+    "code_barre": "ART-139",
+    "nom": "Vis + Écrou métrique 5 x 30 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 5 x 30 mm"
+  },
+  {
+    "id": "ART-140",
+    "code_barre": "ART-140",
+    "nom": "Vis + Écrou métrique 5 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 5 x 40 mm"
+  },
+  {
+    "id": "ART-141",
+    "code_barre": "ART-141",
+    "nom": "Vis + Écrou métrique 5 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 5 x 50 mm"
+  },
+  {
+    "id": "ART-142",
+    "code_barre": "ART-142",
+    "nom": "Vis + Écrou métrique 6 x 25 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 6 x 25 mm"
+  },
+  {
+    "id": "ART-143",
+    "code_barre": "ART-143",
+    "nom": "Vis + Écrou métrique 6 x 30 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 6 x 30 mm"
+  },
+  {
+    "id": "ART-144",
+    "code_barre": "ART-144",
+    "nom": "Vis + Écrou métrique 6 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 6 x 40 mm"
+  },
+  {
+    "id": "ART-145",
+    "code_barre": "ART-145",
+    "nom": "Vis + Écrou métrique 6 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 6 x 50 mm"
+  },
+  {
+    "id": "ART-146",
+    "code_barre": "ART-146",
+    "nom": "Vis + Écrou métrique 8 x 25 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 8 x 25 mm"
+  },
+  {
+    "id": "ART-147",
+    "code_barre": "ART-147",
+    "nom": "Vis + Écrou métrique 8 x 30 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 8 x 30 mm"
+  },
+  {
+    "id": "ART-148",
+    "code_barre": "ART-148",
+    "nom": "Vis + Écrou métrique 8 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 8 x 40 mm"
+  },
+  {
+    "id": "ART-149",
+    "code_barre": "ART-149",
+    "nom": "Vis + Écrou métrique 8 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 8 x 50 mm"
+  },
+  {
+    "id": "ART-150",
+    "code_barre": "ART-150",
+    "nom": "Vis + Écrou métrique 10 x 25 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 10 x 25 mm"
+  },
+  {
+    "id": "ART-151",
+    "code_barre": "ART-151",
+    "nom": "Vis + Écrou métrique 10 x 30 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 10 x 30 mm"
+  },
+  {
+    "id": "ART-152",
+    "code_barre": "ART-152",
+    "nom": "Vis + Écrou métrique 10 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 10 x 40 mm"
+  },
+  {
+    "id": "ART-153",
+    "code_barre": "ART-153",
+    "nom": "Vis + Écrou métrique 10 x 50 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis + Écrou métrique 10 x 50 mm"
+  },
+  {
+    "id": "ART-154",
+    "code_barre": "ART-154",
+    "nom": "Cheville plastique d'expansion n°8",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Cheville plastique d'expansion n°8"
+  },
+  {
+    "id": "ART-155",
+    "code_barre": "ART-155",
+    "nom": "Cheville plastique d'expansion n°10",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Cheville plastique d'expansion n°10"
+  },
+  {
+    "id": "ART-156",
+    "code_barre": "ART-156",
+    "nom": "Cheville plastique d'expansion n°12",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/100",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Cheville plastique d'expansion n°12"
+  },
+  {
+    "id": "ART-157",
+    "code_barre": "ART-157",
+    "nom": "Cheville plastique d'expansion n°14",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Cheville plastique d'expansion n°14"
+  },
+  {
+    "id": "ART-158",
+    "code_barre": "ART-158",
+    "nom": "Vis tirefond tête hexagonale 6 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis tirefond tête hexagonale 6 x 40 mm"
+  },
+  {
+    "id": "ART-159",
+    "code_barre": "ART-159",
+    "nom": "Vis tirefond tête hexagonale 6 x 60 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/50",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis tirefond tête hexagonale 6 x 60 mm"
+  },
+  {
+    "id": "ART-160",
+    "code_barre": "ART-160",
+    "nom": "Vis tirefond tête hexagonale 8 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis tirefond tête hexagonale 8 x 40 mm"
+  },
+  {
+    "id": "ART-161",
+    "code_barre": "ART-161",
+    "nom": "Vis tirefond tête hexagonale 8 x 60 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/25",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis tirefond tête hexagonale 8 x 60 mm"
+  },
+  {
+    "id": "ART-162",
+    "code_barre": "ART-162",
+    "nom": "Vis tirefond tête hexagonale 10 x 40 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/20",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis tirefond tête hexagonale 10 x 40 mm"
+  },
+  {
+    "id": "ART-163",
+    "code_barre": "ART-163",
+    "nom": "Vis tirefond tête hexagonale 10 x 60 mm",
+    "categorie": "Visserie, Boulonnerie & Fixation",
+    "unite": "Boîte/20",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Vis tirefond tête hexagonale 10 x 60 mm"
+  },
+  {
+    "id": "ART-164",
+    "code_barre": "ART-164",
+    "nom": "Ruban adhésif isolant Scotch Noir 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Noir 10m"
+  },
+  {
+    "id": "ART-165",
+    "code_barre": "ART-165",
+    "nom": "Ruban adhésif isolant Scotch Rouge 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Rouge 10m"
+  },
+  {
+    "id": "ART-166",
+    "code_barre": "ART-166",
+    "nom": "Ruban adhésif isolant Scotch Bleu 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Bleu 10m"
+  },
+  {
+    "id": "ART-167",
+    "code_barre": "ART-167",
+    "nom": "Ruban adhésif isolant Scotch Marron 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Marron 10m"
+  },
+  {
+    "id": "ART-168",
+    "code_barre": "ART-168",
+    "nom": "Ruban adhésif isolant Scotch Vert 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Vert 10m"
+  },
+  {
+    "id": "ART-169",
+    "code_barre": "ART-169",
+    "nom": "Ruban adhésif isolant Scotch Jaune 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Jaune 10m"
+  },
+  {
+    "id": "ART-170",
+    "code_barre": "ART-170",
+    "nom": "Ruban adhésif isolant Scotch Terre Vert/Jaune 10m",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Rouleau",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ruban adhésif isolant Scotch Terre Vert/Jaune 10m"
+  },
+  {
+    "id": "ART-171",
+    "code_barre": "ART-171",
+    "nom": "Pot de colle PVC avec pinceau 1 kg",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pot 1kg",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Pot de colle PVC avec pinceau 1 kg"
+  },
+  {
+    "id": "ART-172",
+    "code_barre": "ART-172",
+    "nom": "Pot de colle PVC avec pinceau 1/2 kg (500g)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pot 500g",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Pot de colle PVC avec pinceau 1/2 kg (500g)"
+  },
+  {
+    "id": "ART-173",
+    "code_barre": "ART-173",
+    "nom": "Pot de colle PVC tube / petit pot (125g)",
+    "categorie": "Plomberie & Raccords PVC",
+    "unite": "Pot 125g",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Pot de colle PVC tube / petit pot (125g)"
+  },
+  {
+    "id": "ART-174",
+    "code_barre": "ART-174",
+    "nom": "Ampoule LED standard 9W / 11W E27",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ampoule LED standard 9W / 11W E27"
+  },
+  {
+    "id": "ART-175",
+    "code_barre": "ART-175",
+    "nom": "Ampoule LED standard 13W E27",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ampoule LED standard 13W E27"
+  },
+  {
+    "id": "ART-176",
+    "code_barre": "ART-176",
+    "nom": "Ampoule LED forte luminosité 14W à 19W E27",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ampoule LED forte luminosité 14W à 19W E27"
+  },
+  {
+    "id": "ART-177",
+    "code_barre": "ART-177",
+    "nom": "Ampoule LED haute puissance gros globe 20W à 30W",
+    "categorie": "Éclairage LED & Luminaires",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Ampoule LED haute puissance gros globe 20W à 30W"
+  },
+  {
+    "id": "ART-178",
+    "code_barre": "ART-178",
+    "nom": "Sonnerie carillon électrique 220V",
+    "categorie": "Électricité - Appareillage",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Sonnerie carillon électrique 220V"
+  },
+  {
+    "id": "ART-179",
+    "code_barre": "ART-179",
+    "nom": "Sonnerie modulaire rail DIN pour tableau",
+    "categorie": "Protection & Tableaux",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Sonnerie modulaire rail DIN pour tableau"
+  },
+  {
+    "id": "ART-180",
+    "code_barre": "ART-180",
+    "nom": "Rallonge multiprise avec câble 5 mètres",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rallonge multiprise avec câble 5 mètres"
+  },
+  {
+    "id": "ART-181",
+    "code_barre": "ART-181",
+    "nom": "Rallonge multiprise avec câble 10 mètres",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rallonge multiprise avec câble 10 mètres"
+  },
+  {
+    "id": "ART-182",
+    "code_barre": "ART-182",
+    "nom": "Rallonge électrique sur enrouleur 15 mètres",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rallonge électrique sur enrouleur 15 mètres"
+  },
+  {
+    "id": "ART-183",
+    "code_barre": "ART-183",
+    "nom": "Rallonge électrique sur enrouleur 20 mètres",
+    "categorie": "Électricité - Câbles & Gaines",
+    "unite": "Pièce",
+    "prix_vente": 0.0,
+    "source_prix": "À renseigner",
+    "stock_actuel": 25.0,
+    "stock_min": 5.0,
+    "en_commande": 0.0,
+    "fournisseur": "Grossiste Quincaillerie Dakar",
+    "emplacement": "Magasin Principal",
+    "description": "Rallonge électrique sur enrouleur 20 mètres"
+  }
+];
+
+        const LocalDataEngine = {
+            KEY_ARTICLES: 'diadji_articles_v2',
+            KEY_VENTES: 'diadji_ventes_v2',
+
+            getArticles() {
+                const raw = localStorage.getItem(this.KEY_ARTICLES);
+                if (!raw) {
+                    localStorage.setItem(this.KEY_ARTICLES, JSON.stringify(DIADJI_INITIAL_ARTICLES));
+                    return JSON.parse(JSON.stringify(DIADJI_INITIAL_ARTICLES));
+                }
+                try {
+                    return JSON.parse(raw);
+                } catch (e) {
+                    return JSON.parse(JSON.stringify(DIADJI_INITIAL_ARTICLES));
+                }
+            },
+
+            saveArticles(articles) {
+                localStorage.setItem(this.KEY_ARTICLES, JSON.stringify(articles));
+            },
+
+            getVentes() {
+                const raw = localStorage.getItem(this.KEY_VENTES);
+                if (!raw) return [];
+                try {
+                    return JSON.parse(raw);
+                } catch (e) {
+                    return [];
+                }
+            },
+
+            saveVentes(ventes) {
+                localStorage.setItem(this.KEY_VENTES, JSON.stringify(ventes));
+            },
+
+            async handleRequest(urlStr, init = {}) {
+                const method = (init.method || 'GET').toUpperCase();
+                let pathname = urlStr;
+                let searchParams = new URLSearchParams();
+
+                try {
+                    const parsed = new URL(urlStr, 'http://localhost');
+                    pathname = parsed.pathname;
+                    searchParams = parsed.searchParams;
+                } catch (e) {
+                    if (urlStr.includes('?')) {
+                        const parts = urlStr.split('?');
+                        pathname = parts[0];
+                        searchParams = new URLSearchParams(parts[1]);
+                    }
+                }
+
+                // 1. GET /api/stats
+                if (pathname === '/api/stats') {
+                    const articles = this.getArticles();
+                    const ventes = this.getVentes();
+
+                    const todayStr = new Date().toISOString().slice(0, 10);
+                    const todayVentes = ventes.filter(v => (v.date_vente || '').startsWith(todayStr));
+                    const caJour = todayVentes.reduce((sum, v) => sum + (v.montant_net || 0), 0);
+
+                    let valeurStock = 0;
+                    let enRupture = 0;
+                    let stockFaible = 0;
+                    const catMap = {};
+
+                    articles.forEach(a => {
+                        const prix = a.prix_vente || 0;
+                        const stock = a.stock_actuel || 0;
+                        valeurStock += (prix * stock);
+                        if (stock <= 0) enRupture++;
+                        else if (stock <= (a.stock_min || 0)) stockFaible++;
+
+                        const c = a.categorie || 'Commerce Général';
+                        catMap[c] = (catMap[c] || 0) + 1;
+                    });
+
+                    const categories = Object.keys(catMap).map(c => ({ categorie: c, total: catMap[c] }));
+
+                    return this.jsonResponse({
+                        total_articles: articles.length,
+                        valeur_stock_fcfa: Math.round(valeurStock),
+                        en_rupture: enRupture,
+                        stock_faible: stockFaible,
+                        commandes_en_cours: 0,
+                        ventes_jour_total_fcfa: Math.round(caJour),
+                        ventes_jour_count: todayVentes.length,
+                        categories: categories
+                    });
+                }
+
+                // 2. GET /api/alertes
+                if (pathname === '/api/alertes') {
+                    const articles = this.getArticles();
+                    const alerts = articles.filter(a => (a.stock_actuel || 0) <= (a.stock_min || 0));
+                    return this.jsonResponse(alerts);
+                }
+
+                // 3. Prochain Code Article (next-code / next-id)
+                if (pathname === '/api/articles/next-code' || pathname === '/api/articles/next-id') {
+                    const articles = this.getArticles();
+                    let maxId = 0;
+                    articles.forEach(a => {
+                        const num = parseInt((a.id || '').replace(/\D/g, ''), 10);
+                        if (!isNaN(num) && num > maxId) maxId = num;
+                    });
+                    const nextCode = 'ART-' + String(maxId + 1).padStart(3, '0');
+                    return this.jsonResponse({
+                        next_code: nextCode,
+                        code: nextCode,
+                        id: nextCode,
+                        success: true
+                    });
+                }
+
+                // 4. GET /api/articles (Liste, recherche, filtres)
+                if (pathname === '/api/articles' && method === 'GET') {
+                    let articles = this.getArticles();
+                    const q = searchParams.get('q');
+                    const cat = searchParams.get('cat');
+                    const statut = searchParams.get('statut');
+
+                    if (cat && cat !== 'Toutes') {
+                        articles = articles.filter(a => a.categorie === cat);
+                    }
+                    if (q) {
+                        const queryLower = q.toLowerCase();
+                        articles = articles.filter(a => 
+                            (a.nom || '').toLowerCase().includes(queryLower) ||
+                            (a.id || '').toLowerCase().includes(queryLower) ||
+                            (a.categorie || '').toLowerCase().includes(queryLower) ||
+                            (a.code_barre || '').toLowerCase().includes(queryLower)
+                        );
+                    }
+                    if (statut && statut !== 'Tous') {
+                        if (statut === 'En rupture') articles = articles.filter(a => (a.stock_actuel || 0) <= 0);
+                        else if (statut === 'Stock faible') articles = articles.filter(a => (a.stock_actuel || 0) > 0 && (a.stock_actuel || 0) <= (a.stock_min || 0));
+                        else if (statut === 'En stock') articles = articles.filter(a => (a.stock_actuel || 0) > (a.stock_min || 0));
+                    }
+
+                    articles = articles.map(a => ({
+                        ...a,
+                        valeur_stock: (a.stock_actuel || 0) * (a.prix_vente || 0),
+                        statut_disponibilite: (a.stock_actuel || 0) <= 0 ? 'En rupture' : ((a.stock_actuel || 0) <= (a.stock_min || 0) ? 'Stock faible' : 'En stock')
+                    }));
+
+                    return this.jsonResponse(articles);
+                }
+
+                // 5. GET /api/articles/:id
+                if (pathname.startsWith('/api/articles/') && method === 'GET') {
+                    const id = decodeURIComponent(pathname.replace('/api/articles/', '').trim());
+                    const articles = this.getArticles();
+                    const art = articles.find(a => a.id === id);
+                    if (art) return this.jsonResponse(art);
+                    return this.errorResponse(`Article ${id} introuvable`, 404);
+                }
+
+                // 6. POST /api/articles (Création)
+                if (pathname === '/api/articles' && method === 'POST') {
+                    const body = typeof init.body === 'string' ? JSON.parse(init.body) : (init.body || {});
+                    const articles = this.getArticles();
+                    const id = body.id || ('ART-' + String(articles.length + 1).padStart(3, '0'));
+                    const newArt = {
+                        id: id,
+                        code_barre: body.code_barre || id,
+                        nom: body.nom || 'Nouvel Article',
+                        categorie: body.categorie || 'Commerce Général',
+                        unite: body.unite || 'Pièce',
+                        prix_vente: parseFloat(body.prix_vente || 0),
+                        source_prix: body.source_prix || 'Saisie Manuelle',
+                        stock_actuel: parseFloat(body.stock_actuel || 0),
+                        stock_min: parseFloat(body.stock_min || 0),
+                        en_commande: 0,
+                        fournisseur: body.fournisseur || 'Grossiste Général Dakar',
+                        emplacement: body.emplacement || 'Magasin',
+                        description: body.description || ''
+                    };
+                    articles.unshift(newArt);
+                    this.saveArticles(articles);
+                    return this.jsonResponse(newArt, 201);
+                }
+
+                // 7. PUT /api/articles/:id (Modification)
+                if (pathname.startsWith('/api/articles/') && method === 'PUT') {
+                    const id = decodeURIComponent(pathname.replace('/api/articles/', '').trim());
+                    const body = typeof init.body === 'string' ? JSON.parse(init.body) : (init.body || {});
+                    let articles = this.getArticles();
+                    const idx = articles.findIndex(a => a.id === id);
+                    if (idx === -1) return this.errorResponse(`Article ${id} introuvable`, 404);
+
+                    articles[idx] = { ...articles[idx], ...body, id: id };
+                    this.saveArticles(articles);
+                    return this.jsonResponse(articles[idx]);
+                }
+
+                // 8. DELETE /api/articles/:id (Suppression)
+                if (pathname.startsWith('/api/articles/') && method === 'DELETE') {
+                    const id = decodeURIComponent(pathname.replace('/api/articles/', '').trim());
+                    let articles = this.getArticles();
+                    const filtered = articles.filter(a => a.id !== id);
+                    this.saveArticles(filtered);
+                    return this.jsonResponse({ status: 'ok', deleted: id });
+                }
+
+                // 9. POST /api/caisse/vente (Vente & Encaissement Caisse)
+                if (pathname === '/api/caisse/vente' && method === 'POST') {
+                    const body = typeof init.body === 'string' ? JSON.parse(init.body) : (init.body || {});
+                    const items = body.items || [];
+                    if (!items.length) return this.errorResponse("Le panier est vide.", 400);
+
+                    const articles = this.getArticles();
+                    let totalBrut = 0;
+                    const processedLines = [];
+
+                    for (const it of items) {
+                        const art = articles.find(a => a.id === it.article_id);
+                        if (!art) return this.errorResponse(`Article ${it.article_id} introuvable.`, 400);
+                        const qte = parseFloat(it.quantite || 1);
+                        const prix = parseFloat(it.prix_unitaire || art.prix_vente || 0);
+                        const totalLigne = qte * prix;
+                        totalBrut += totalLigne;
+
+                        // Déduction de stock
+                        art.stock_actuel = Math.max(0, (art.stock_actuel || 0) - qte);
+
+                        processedLines.push({
+                            article_id: art.id,
+                            nom_article: art.nom,
+                            quantite: qte,
+                            prix_unitaire: prix,
+                            total_ligne: totalLigne,
+                            unite: art.unite || 'Pièce'
+                        });
+                    }
+
+                    const remise = parseFloat(body.remise || 0);
+                    const totalNet = Math.max(0, totalBrut - remise);
+                    const montantVerse = parseFloat(body.montant_verse !== undefined && body.montant_verse !== '' ? body.montant_verse : totalNet);
+                    const monnaie = Math.max(0, montantVerse - totalNet);
+
+                    // Génération du numéro de ticket (ex: TK-20261112-0001)
+                    const now = new Date();
+                    const yyyy = now.getFullYear();
+                    const mm = String(now.getMonth() + 1).padStart(2, '0');
+                    const dd = String(now.getDate()).padStart(2, '0');
+                    const dateStr = `${yyyy}${mm}${dd}`;
+
+                    const ventes = this.getVentes();
+                    const todayCount = ventes.filter(v => (v.numero_ticket || '').includes(dateStr)).length + 1;
+                    const ticketNum = `TK-${dateStr}-${String(todayCount).padStart(4, '0')}`;
+
+                    const dateFormatee = `${now.getFullYear()}-${mm}-${dd} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+                    const ticket = {
+                        id: ventes.length + 1,
+                        numero_ticket: ticketNum,
+                        date_vente: dateFormatee,
+                        montant_total: totalBrut,
+                        remise: remise,
+                        montant_net: totalNet,
+                        montant_verse: montantVerse,
+                        monnaie_rendue: monnaie,
+                        mode_paiement: body.mode_paiement || 'Espèces',
+                        nom_client: body.nom_client || 'Client Comptant',
+                        telephone_client: body.telephone_client || '',
+                        statut: 'PAYE',
+                        lignes: processedLines
+                    };
+
+                    ventes.unshift(ticket);
+                    this.saveVentes(ventes);
+                    this.saveArticles(articles);
+
+                    return this.jsonResponse(ticket, 201);
+                }
+
+                // 10. GET /api/ventes (Historique)
+                if (pathname === '/api/ventes' && method === 'GET') {
+                    const ventes = this.getVentes();
+                    return this.jsonResponse(ventes);
+                }
+
+                // 11. GET /api/ventes/:ticketNum
+                if (pathname.startsWith('/api/ventes/') && method === 'GET') {
+                    const ticketNum = decodeURIComponent(pathname.replace('/api/ventes/', '').trim());
+                    const ventes = this.getVentes();
+                    const v = ventes.find(x => x.numero_ticket === ticketNum);
+                    if (v) return this.jsonResponse(v);
+                    return this.errorResponse(`Ticket ${ticketNum} introuvable`, 404);
+                }
+
+                // 12. Backup local JSON
+                if (pathname === '/api/backup/db' || pathname === '/api/backup/json') {
+                    const dump = {
+                        app: 'DIADJI FAMILY',
+                        version: '2.0.0',
+                        date: new Date().toISOString(),
+                        articles: this.getArticles(),
+                        ventes: this.getVentes()
+                    };
+                    const blob = new Blob([JSON.stringify(dump, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `DIADJI_FAMILY_SAUVEGARDE_${new Date().toISOString().slice(0, 10)}.json`;
+                    a.click();
+                    return this.jsonResponse({ success: true, message: "Sauvegarde téléchargée avec succès." });
+                }
+
+                return this.errorResponse(`Route ${pathname} non gérée localement`, 404);
+            },
+
+            jsonResponse(data, status = 200) {
+                return new Response(JSON.stringify(data), {
+                    status: status,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            },
+
+            errorResponse(message, status = 400) {
+                return new Response(JSON.stringify({ error: message, success: false }), {
+                    status: status,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            }
+        };
+
+        window.LocalDataEngine = LocalDataEngine;
+        window.DIADJI_INITIAL_ARTICLES = DIADJI_INITIAL_ARTICLES;
+
+        // Intercepteur Transparent de Fetch pour assurer l'indépendance totale vis-à-vis du serveur
+        const _origFetch = window.fetch;
+        window.fetch = async function(input, init) {
+            let url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+            
+            // Si c'est un appel API
+            if (url.includes('/api/')) {
+                // Si on tourne en local (protocole file://) ou que le serveur n'est pas utilisé :
+                if (window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null' || window.FORCE_LOCAL_MODE) {
+                    return LocalDataEngine.handleRequest(url, init);
+                }
+                
+                // Si sur serveur web HTTP/HTTPS : tenter le serveur d'abord, basculer automatiquement sur LocalDataEngine si hors ligne
+                try {
+                    const resp = await _origFetch(input, init);
+                    if (resp.ok || resp.status === 400 || resp.status === 404) {
+                        return resp;
+                    }
+                    return LocalDataEngine.handleRequest(url, init);
+                } catch (networkErr) {
+                    console.warn("Serveur réseau injoignable, bascule automatique sur le moteur local embarqué :", networkErr);
+                    return LocalDataEngine.handleRequest(url, init);
+                }
+            }
+            
+            return _origFetch(input, init);
+        };
+    
+
         // State variables
         let ALL_ARTICLES = [];
         let CART = [];
@@ -2948,7 +6061,8 @@
             const cat = document.getElementById('cat-filter-category').value;
             const status = document.getElementById('cat-filter-status').value;
 
-            const url = new URL('/api/articles', window.location.origin);
+            const baseUrl = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'http://localhost';
+            const url = new URL('/api/articles', baseUrl);
             if (query) url.searchParams.set('q', query);
             if (cat && cat !== 'Toutes') url.searchParams.set('cat', cat);
             if (status && status !== 'Tous') url.searchParams.set('statut', status);
