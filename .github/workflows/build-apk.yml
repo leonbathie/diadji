@@ -7,6 +7,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-apk:
     name: Build & Package DIADJI FAMILY APK
@@ -22,37 +25,59 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Cache Gradle Dependencies
+      - name: Cache Gradle Packages
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('android/**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - name: Grant Execute Permission for Gradlew
         run: |
-          cd android
-          chmod +x gradlew || true
+          chmod +x android/gradlew
 
-      - name: Build Android APK (Debug & Release)
+      - name: Build Android APK
         run: |
           cd android
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
-      - name: Copy & Rename APK
+      - name: Prepare APK for Release
         run: |
-          mkdir -p output_apk
-          cp android/app/build/outputs/apk/debug/app-debug.apk output_apk/DIADJI_FAMILY.apk
+          mkdir -p release_apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk release_apk/DIADJI_FAMILY.apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DIADJI_FAMILY_Android_APK
-          path: output_apk/DIADJI_FAMILY.apk
+          name: DIADJI_FAMILY_APK
+          path: release_apk/DIADJI_FAMILY.apk
           if-no-files-found: error
+
+      - name: Create or Update GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+        with:
+          tag_name: mobile-v2.0.0
+          name: "DIADJI FAMILY v2.0.0 - Application Mobile Android (APK)"
+          body: |
+            ## 📱 DIADJI FAMILY - Application Mobile Android (.apk)
+            
+            Bienvenue sur la version mobile officielle de **DIADJI FAMILY** (Dakar, Sénégal).
+            
+            ### ✨ Fonctionnalités :
+            * 🛒 **Caisse Express & POS tactile** optimisé smartphone & tablette.
+            * 📸 **Scanner de Factures & Codes-barres** via l'appareil photo du téléphone.
+            * 💬 **Envoi instantané des tickets de caisse sur WhatsApp** en 1 clic.
+            * 📄 **Téléchargement & Impression automatique des Factures PDF**.
+            * 🌐 **Connectivité Wi-Fi / Réseau local** au PC serveur de caisse.
+            * 📦 **Mode Catalogue Hors-Ligne** intégré.
+            
+            ### 📥 Installation sur votre smartphone :
+            1. Téléchargez le fichier **`DIADJI_FAMILY.apk`** ci-dessous sur votre téléphone.
+            2. Ouvrez le fichier et autorisez l'installation depuis cette source.
+            3. Lancez l'application **DIADJI FAMILY** !
+          files: release_apk/DIADJI_FAMILY.apk
+
